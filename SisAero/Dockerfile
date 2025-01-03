@@ -5,8 +5,8 @@ FROM python:3.12.6-slim
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       postgresql-client \
-    build-essential \
-    libpq-dev \
+      build-essential \
+      libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Etapa 3: Definir diretório de trabalho
@@ -22,10 +22,20 @@ RUN pip install -r requirements.txt
 # Etapa 6: Configurar variáveis de ambiente para produção
 ENV PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=SisAero.settings.production \
-    PORT=8000
+    PORT=8000 \
+    DJANGO_SUPERUSER_USERNAME=alex.leopoldo \
+    DJANGO_SUPERUSER_PASSWORD=Apport@903 \
+    DJANGO_SUPERUSER_EMAIL=alex.leopoldo@apportnegocios.com.br
 
-# Etapa 7: Coletar arquivos estáticos (executar antes de iniciar o servidor)
+# Etapa 7: Coletar arquivos estáticos e criar migrações e superusuário
 RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
+
+# Adicionar o superusuário
+RUN python manage.py createsuperuser \
+    --noinput \
+    --username $DJANGO_SUPERUSER_USERNAME \
+    --email $DJANGO_SUPERUSER_EMAIL || true
 
 # Etapa 8: Expor a porta que o contêiner vai escutar
 EXPOSE 8000
