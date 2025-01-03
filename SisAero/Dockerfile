@@ -22,11 +22,14 @@ ENV PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=seu_projeto.settings.production \
     PORT=8000
 
-# Etapa 7: Coletar arquivos estáticos
+# Etapa 7: Coletar arquivos estáticos (executar antes de iniciar o servidor)
 RUN python manage.py collectstatic --noinput
 
-# Etapa 8: Expor a porta
+# Etapa 8: Expor a porta que o contêiner vai escutar
 EXPOSE 8000
 
-# Etapa 9: Comando para iniciar o servidor
+# Etapa 9: Comando para iniciar o servidor com Gunicorn
 CMD ["gunicorn", "seu_projeto.wsgi:application", "--bind", "0.0.0.0:${PORT}"]
+
+# Etapa 10: Iniciar o servidor de desenvolvimento no caso de não usar o Gunicorn (para debug, se necessário)
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
