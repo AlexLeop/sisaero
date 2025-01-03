@@ -1,0 +1,56 @@
+version: '3.12'
+
+services:
+  # Serviço para o Django
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+  # Serviço para o banco de dados (PostgreSQL)
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+
+  # Serviço para o Redis (usado pelo Celery)
+  redis:
+    image: redis:alpine
+
+  # Serviço para o Celery
+  celery:
+    build: .
+    command: celery -A meuprojeto worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+
+  # Serviço para o Celery Beat (opcional, caso utilize o Celery Beat para agendamento de tarefas)
+  celerybeat:
+    build: .
+    command: celery -A meuprojeto beat --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+
+# Volumes para persistência de dados
+volumes:
+  postgres_data:

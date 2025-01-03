@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Entradas Aero</title>
+</head>
+<body>
+    <h1>Lista de Entradas Aero</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ORG</th>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Unidade Organizacional</th>
+                <th>Cargo</th>
+                <th>Índice de Parcelas Pagas</th>
+                <th>Valor</th>
+                <th>Caixas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entrada in entradas_aero %}
+            <tr>
+                <td>{{ entrada.org }}</td>
+                <td>{{ entrada.matricula }}</td>
+                <td>{{ entrada.nome }}</td>
+                <td>{{ entrada.un_org }}</td>
+                <td>{{ entrada.cargo }}</td>
+                <td>{{ entrada.ind_parcs_pg }}</td>
+                <td>{{ entrada.valor }}</td>
+                <td>{{ entrada.caixas }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if entradas_aero.has_previous %}
+                <a href="?page=1">&laquo; primeiro</a>
+                <a href="?page={{ entradas_aero.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span>Página {{ entradas_aero.number }} de {{ entradas_aero.paginator.num_pages }}</span>
+
+            {% if entradas_aero.has_next %}
+                <a href="?page={{ entradas_aero.next_page_number }}">próxima</a>
+                <a href="?page={{ entradas_aero.paginator.num_pages }}">último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

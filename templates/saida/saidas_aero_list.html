@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Saídas Aero</title>
+</head>
+<body>
+    <h1>Lista de Saídas Aero</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ORG</th>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Unidade Organizacional</th>
+                <th>Cargo</th>
+                <th>Índice de Parcelas Pagas</th>
+                <th>Valor</th>
+                <th>Caixas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for saida in saidas_aero %}
+            <tr>
+                <td>{{ saida.org }}</td>
+                <td>{{ saida.matricula }}</td>
+                <td>{{ saida.nome }}</td>
+                <td>{{ saida.un_org }}</td>
+                <td>{{ saida.cargo }}</td>
+                <td>{{ saida.ind_parcs_pg }}</td>
+                <td>{{ saida.valor }}</td>
+                <td>{{ saida.caixas }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if saidas_aero.has_previous %}
+                <a href="?page=1">&laquo; primeiro</a>
+                <a href="?page={{ saidas_aero.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span>Página {{ saidas_aero.number }} de {{ saidas_aero.paginator.num_pages }}</span>
+
+            {% if saidas_aero.has_next %}
+                <a href="?page={{ saidas_aero.next_page_number }}">próxima</a>
+                <a href="?page={{ saidas_aero.paginator.num_pages }}">último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

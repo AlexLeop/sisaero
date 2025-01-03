@@ -1,0 +1,172 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4 text-center">Lista de Cadastros</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Novo Cadastro
+        </button>
+
+        <form class="d-flex" method="get" action="{% url 'cadastros_list' %}">
+            <input class="form-control me-2" type="search" name="q" placeholder="Pesquisar por Nome ou CPF" aria-label="Pesquisar">
+            <button class="btn btn-outline-primary" type="submit">
+                <i class="bi bi-search"></i> Pesquisar
+            </button>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>CPF</th>
+                    <th>Matrícula</th>
+                    <th>Nome</th>
+                    <th>Posto</th>
+                    <th>Dt. Admissão</th>
+                    <th>Dt. Término</th>
+                    <th>Banco</th>
+                    <th>Agência</th>
+                    <th>Tip Conta</th>
+                    <th>Nº Conta</th>
+                    <th>Proventos</th>
+                    <th>Descontos</th>
+                    <th>Líquido</th>
+                    <th>Sigla UO</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cadastro in cadastros %}
+                <!-- Linha principal -->
+                <tr data-bs-toggle="collapse" data-bs-target="#details-{{ cadastro.matricula }}" aria-expanded="false" aria-controls="details-{{ cadastro.matricula }}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cadastro.cpf_pessoa }}</td>
+                    <td>{{ cadastro.matricula }}</td>
+                    <td>{{ cadastro.nome_pessoa }}</td>
+                    <td>{{ cadastro.posto }}</td>
+                    <td>{{ cadastro.data_admissao }}</td>
+                    <td>{{ cadastro.data_termino }}</td>
+                    <td>{{ cadastro.banco }}</td>
+                    <td>{{ cadastro.agencia }}</td>
+                    <td>{{ cadastro.tipo_conta }}</td>
+                    <td>{{ cadastro.numero_conta }}</td>
+                    <td>{{ cadastro.proventos }}</td>
+                    <td>{{ cadastro.descontos }}</td>
+                    <td>{{ cadastro.liquido }}</td>
+                    <td>{{ cadastro.sigla_uo }}</td>
+                    <td>
+                        <i class="bi bi-chevron-down text-primary"></i> Ver mais
+                    </td>
+                </tr>
+
+                <!-- Linha com os detalhes -->
+                <tr class="collapse bg-light" id="details-{{ cadastro.matricula }}">
+                    <td colspan="16">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Entradas</h6>
+                                <table class="table table-bordered table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Und. Organizacional</th>
+                                            <th>Entradas</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entrada in cadastro.entradas.all %}
+                                        <tr>
+                                            <td>{{ entrada.un_org }}</td>
+                                            <td>{{ entrada.caixas }}</td>
+                                            <td>{{ entrada.valor }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">Nenhuma entrada registrada.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h6>Saídas</h6>
+                                <table class="table table-bordered table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Und. Organizacional</th>
+                                            <th>Saídas</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for saida in cadastro.saidas.all %}
+                                        <tr>
+                                            <td>{{ saida.un_org }}</td>
+                                            <td>{{ saida.caixas }}</td>
+                                            <td>{{ saida.valor }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">Nenhuma saída registrada.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not cadastros %}
+    <div class="alert alert-warning text-center">
+        Nenhum cadastro encontrado.
+    </div>
+    {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adicionar novos cadastros</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'cadastros_list' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- Tipo de arquivo -->
+                        <div class="form-group">
+                            <label for="tipo_importacao">Tipo de Registro:</label>
+                            <select class="form-control" id="tipo_importacao" name="tipo_importacao">
+                                <option value="cadastro">Cadastro</option>
+                                <option value="entrada">Entrada</option>
+                                <option value="saida">Saída</option>
+                            </select>
+                        </div>
+                        <br>
+
+                        <!-- Selecione o arquivo -->
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="arquivo">
+                        </div>
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Importar</button> <!-- Botão de envio -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
