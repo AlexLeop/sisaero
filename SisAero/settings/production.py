@@ -9,7 +9,7 @@ DEBUG = False
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'web-production-9dd13.up.railway.app').split(',')
 
 # Secret Key
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'v2BNTD3Rjtg8_JXV-9bnCgCIz1h3nyCRVnAAQ5Eqpm6QKPMRqB_QzkfpJLcmmZiO2QA'
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in the environment variables")
 
