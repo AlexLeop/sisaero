@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 DEBUG = False
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'web-production-d72eb.up.railway.app').split(',')
-ALLOWED_HOSTS = ['web-production-d72eb.up.railway.app']
+ALLOWED_HOSTS = ['*',]
 
 
 # Secret Key
