@@ -1,6 +1,9 @@
-from SisAero.celery import shared_task
 import pandas as pd
-from .models import Cadastros, EntradasAero, SaidasAero
+from celery import shared_task
+
+from .models import Cadastros
+from entrada.models import EntradasAero
+from saida.models import SaidasAero
 
 
 @shared_task

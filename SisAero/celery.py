@@ -3,7 +3,7 @@ import os
 from celery import Celery
 
 # Defina o módulo de configuração do Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SisAero.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SisAero.settings.production')
 
 # Criação da instância do Celery
 app = Celery('SisAero')
