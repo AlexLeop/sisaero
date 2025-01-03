@@ -1,7 +1,11 @@
 from .base import *
+import os
+from urllib.parse import urlparse
 
 DEBUG = False
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '.railway.app').split(',')
+
+# Secret Key
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Banco de dados para produção
@@ -20,7 +24,6 @@ DATABASES = {
     }
 }
 
-
 # Configurações de segurança para produção
 SECURE_HSTS_SECONDS = 31536000  # HSTS ativo por um ano
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -28,5 +31,12 @@ SECURE_HSTS_PRELOAD = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Configurações adicionais de produção (se necessário)
+# Configurações adicionais de produção
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_KEY_PREFIX = 'sisaero'
+
+# Configuração do Celery (caso necessário)
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
