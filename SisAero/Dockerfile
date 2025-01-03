@@ -2,7 +2,9 @@
 FROM python:3.12.6-slim
 
 # Etapa 2: Instalar dependências do sistema
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+      postgresql-client \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
