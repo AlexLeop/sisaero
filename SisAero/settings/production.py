@@ -3,7 +3,7 @@ import os
 from urllib.parse import urlparse
 
 DEBUG = False
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'web-production-d72eb.up.railway.app').split(',')
 
 # Secret Key
 SECRET_KEY = os.getenv('SECRET_KEY')
