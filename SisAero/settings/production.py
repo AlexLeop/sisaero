@@ -14,7 +14,7 @@ if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in the environment variables")
 
 # Banco de dados para produção (PostgreSQL)
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = 'postgresql://postgres:boJfqmvXGrtPJokhPlrnxkcIYwKAjOUE@postgres.railway.internal:5432/railway'
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set in the environment variables")
 url = urlparse(DATABASE_URL)
