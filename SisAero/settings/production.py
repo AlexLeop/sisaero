@@ -42,3 +42,4 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'sisaero'
 
 # Configuração do Celery (caso necessário)
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+ROOT_URLCONF = 'SisAero.urls'
