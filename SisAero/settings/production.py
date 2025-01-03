@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 DEBUG = False
 
 # Definir ALLOWED_HOSTS com base na variável de ambiente
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'web-production-d72eb.up.railway.app').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'web-production-9dd13.up.railway.app').split(',')
 
 # Secret Key
 SECRET_KEY = os.getenv('SECRET_KEY')
