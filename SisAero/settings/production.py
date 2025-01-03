@@ -2,9 +2,12 @@ from .base import *
 
 DEBUG = False
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Banco de dados para produção
 DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set in the environment variables")
 url = urlparse(DATABASE_URL)
 DATABASES = {
     'default': {
@@ -16,6 +19,7 @@ DATABASES = {
         'PORT': url.port,
     }
 }
+
 
 # Configurações de segurança para produção
 SECURE_HSTS_SECONDS = 31536000  # HSTS ativo por um ano
