@@ -14,7 +14,7 @@ if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in the environment variables")
 
 # Banco de dados para produção (PostgreSQL)
-DATABASE_URL = 'postgresql://postgres:boJfqmvXGrtPJokhPlrnxkcIYwKAjOUE@postgres.railway.internal:5432/railway'
+DATABASE_URL = 'postgresql://postgres:boJfqmvXGrtPJokhPlrnxkcIYwKAjOUE@monorail.proxy.rlwy.net:22425/railway'
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL is not set in the environment variables")
 url = urlparse(DATABASE_URL)

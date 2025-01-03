@@ -27,21 +27,18 @@ ENV PYTHONUNBUFFERED=1 \
     DJANGO_SUPERUSER_PASSWORD=Apport@903 \
     DJANGO_SUPERUSER_EMAIL=alex.leopoldo@apportnegocios.com.br
 
-# Etapa 7: Coletar arquivos estáticos e criar migrações e superusuário
+# Etapa 7: Coletar arquivos estáticos
 RUN python manage.py collectstatic --noinput
-RUN python manage.py migrate
 
-# Adicionar o superusuário
-RUN python manage.py createsuperuser \
-    --noinput \
-    --username $DJANGO_SUPERUSER_USERNAME \
-    --email $DJANGO_SUPERUSER_EMAIL || true
+# Etapa 8: Copiar o script de inicialização
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Etapa 8: Expor a porta que o contêiner vai escutar
+# Etapa 9: Expor a porta que o contêiner vai escutar
 EXPOSE 8000
 
-# Etapa 9: Comando para iniciar o servidor com Gunicorn
-CMD ["gunicorn", "SisAero.wsgi:application", "--bind", "0.0.0.0:${PORT}"]
+# Etapa 10: Definir o script como ponto de entrada
+ENTRYPOINT ["/entrypoint.sh"]
 
-# Etapa 10: Iniciar o servidor de desenvolvimento no caso de não usar o Gunicorn (para debug, se necessário)
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Etapa 11: Comando para iniciar o servidor com Gunicorn
+CMD ["gunicorn", "SisAero.wsgi:application", "--bind", "0.0.0.0:${PORT}"]
