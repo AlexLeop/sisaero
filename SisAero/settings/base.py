@@ -8,7 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Configurações básicas
 SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
 DEBUG = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['web-production-9dd13.up.railway.app', 'localhost']
+
 
 # Aplicativos instalados
 INSTALLED_APPS = [

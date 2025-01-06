@@ -1,5 +1,7 @@
 # Etapa 1: Definir a imagem base com Python 3.12.6
-FROM python:3.12.6-slim
+ARG PYTHON_VERSION=3.12-slim-bullseye
+FROM python:${PYTHON_VERSION}
+# FROM python:3.12.6-slim
 
 # Etapa 2: Instalar dependências do sistema
 RUN apt-get update \
