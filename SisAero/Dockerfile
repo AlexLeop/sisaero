@@ -1,4 +1,6 @@
-# Etapa 1: Definir a imagem base com Python 3.12
+# Dockerfile
+
+# Etapa 1: Definir a imagem base
 ARG PYTHON_VERSION=3.12-slim-bullseye
 FROM python:${PYTHON_VERSION}
 
