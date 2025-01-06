@@ -1,7 +1,6 @@
-# Etapa 1: Definir a imagem base com Python 3.12.6
+# Etapa 1: Definir a imagem base com Python 3.12
 ARG PYTHON_VERSION=3.12-slim-bullseye
 FROM python:${PYTHON_VERSION}
-# FROM python:3.12.6-slim
 
 # Etapa 2: Instalar dependências do sistema
 RUN apt-get update \
@@ -24,10 +23,7 @@ RUN pip install -r requirements.txt
 # Etapa 6: Configurar variáveis de ambiente para produção
 ENV PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=SisAero.settings.production \
-    PORT=8000 \
-    DJANGO_SUPERUSER_USERNAME=alex.leopoldo \
-    DJANGO_SUPERUSER_PASSWORD=Apport@903 \
-    DJANGO_SUPERUSER_EMAIL=alex.leopoldo@apportnegocios.com.br
+    PORT=8000
 
 # Etapa 7: Coletar arquivos estáticos
 RUN python manage.py collectstatic --noinput
